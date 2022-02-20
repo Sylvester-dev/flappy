@@ -27,7 +27,8 @@ contract Domains is ERC721URIStorage{
   mapping(string => address) domains;
   // This will store values
   mapping(string => string) musics;
-
+  // Getting names from token_id
+  mapping (uint => string) public names;
 
   constructor(string memory _tld) ERC721("Flappy Naming Service", "FLP") payable{
     owner = payable(msg.sender);
@@ -94,6 +95,8 @@ contract Domains is ERC721URIStorage{
     domains[name] = msg.sender;
     console.log("%s has registered a name",msg.sender);
 
+    names[newId] = name; //storing mint Ids with domain name in map
+
      _tokenIds.increment();
   }
 
@@ -125,6 +128,21 @@ contract Domains is ERC721URIStorage{
     (bool success, ) = msg.sender.call{value: amount}("");
     require(success, "Failed to withdraw Matic");
   } 
+
+  //Getting all domain names
+  function getAllNames() public view returns(string[] memory){
+    string[] memory allnames = new string[](_tokenIds.current());
+    for(int i=0; i<_tokenIds.current();i++){
+      allnames[i] = names[i];
+      console.log("Name for token %d is %s", i, allNames[i]);
+    }
+    return allNames;
+  }
+ 
+ //Check for long invalid domain name
+  function valid(string calldata name) public pure returns(bool) {
+  return StringUtils.strlen(name) >= 3 && StringUtils.strlen(name) <= 8;
+}
 }
 // memory (whose lifetime is limited to a function call)
 // storage (the location where the state variables are stored)
