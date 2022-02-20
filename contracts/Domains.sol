@@ -35,6 +35,11 @@ contract Domains is ERC721URIStorage{
     tld = _tld;
     console.log("%s name service deployed", _tld);
   }
+ 
+ //handling custom made error and Saving Gas :)
+  error Unauthorized();
+  error AlreadyRegistered();
+  error InvalidName(string name);
 
 //function to calculate price of domain based on length
   function price(string calldata name) pure public returns(uint){
@@ -50,8 +55,9 @@ contract Domains is ERC721URIStorage{
   }
 
   function register(string calldata name) public payable{
-    require(domains[name]==address(0));  //to check domain name is unregistered as if a domain hasn’t been registered, it’ll point to the zero address!
-    
+    if(domains[name]!=address(0)) revert AlreadyRegistered();  //to check domain name is unregistered as if a domain hasn’t been registered, it’ll point to the zero address!
+    if (!valid(name)) revert InvalidName(name);
+
     uint _price = this.price(name);
     require(msg.value >= _price , "Not enough MATIC paid");
    
@@ -105,7 +111,8 @@ contract Domains is ERC721URIStorage{
   } 
 
   function setMusic(string calldata name, string calldata music) public {
-    require(domains[name]==msg.sender, "You are not the owner of domain"); //checking transaction is done by owner
+   // require(domains[name]==msg.sender, "You are not the owner of domain"); //checking transaction is done by owner
+    if(domains[name] != msg.sender) revert Unauthorized();
     musics[name] = music;
   }
 
