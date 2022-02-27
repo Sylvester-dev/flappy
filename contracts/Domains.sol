@@ -24,9 +24,9 @@ contract Domains is ERC721URIStorage{
   string svgPartTwo = '</text></svg>';
 
   // A "mapping" data type to store their names
-  mapping(string => address) domains;
+  mapping(string => address) public domains;
   // This will store values
-  mapping(string => string) musics;
+  mapping(string => string) public musics;
   // Getting names from token_id
   mapping (uint => string) public names;
 
@@ -139,11 +139,11 @@ contract Domains is ERC721URIStorage{
   //Getting all domain names
   function getAllNames() public view returns(string[] memory){
     string[] memory allnames = new string[](_tokenIds.current());
-    for(int i=0; i<_tokenIds.current();i++){
+    for(uint256 i=0; i < _tokenIds.current();i++){
       allnames[i] = names[i];
-      console.log("Name for token %d is %s", i, allNames[i]);
+      console.log("Name for token %d is %s", i, allnames[i]);
     }
-    return allNames;
+    return allnames;
   }
  
  //Check for long invalid domain name
