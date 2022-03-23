@@ -1,15 +1,17 @@
-# Basic Sample Hardhat Project
+# .flappy ens
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+Web3 dApp like Ethereum Name Service, that let's you mint a .flappy domain and set records to it.
 
-Try running some of the following tasks:
+Also, gives you an on-chain generated NFT, that you can show off on OpenSea (testnet of course).
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+## Backend
+- Solidity
+- Hardhat
+- Ethers.js
+- Chai
+- Alchemy
+
+## Frontend
+- React
+- Ethers.js
+- Injected web3 provider: Metamask
